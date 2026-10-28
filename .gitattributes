@@ -1,0 +1,10 @@
+# Always LF in the working tree, regardless of core.autocrlf on Windows.
+# Prettier (endOfLine: "lf") and the Linux CI runners expect LF.
+* text=auto eol=lf
+
+*.woff2 binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.avif binary
+*.webp binary
