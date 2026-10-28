@@ -1,5 +1,7 @@
 # Portfólio — Reinaldo Luiz da Silva
 
+[![CI](https://github.com/ReinaldoLuizSilva/ReinaldoLuizSilva.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/ReinaldoLuizSilva/ReinaldoLuizSilva.github.io/actions/workflows/ci.yml)
+
 Site pessoal bilíngue (PT-BR / EN) de Reinaldo Luiz da Silva, analista de sistemas com foco
 em Cloud & DevOps. Estático, gerado com [Astro](https://astro.build) e publicado no GitHub
 Pages por GitHub Actions.
@@ -15,7 +17,7 @@ Pages por GitHub Actions.
 | Estilo        | CSS puro com custom properties                       |
 | JS no cliente | Zero (o site funciona com JavaScript desabilitado)   |
 | i18n          | Roteamento nativo do Astro: PT na raiz, EN em `/en/` |
-| Qualidade     | `astro check`, ESLint, Prettier                      |
+| Qualidade     | `astro check`, ESLint, Prettier, lychee, Lighthouse  |
 | Hospedagem    | GitHub Pages via GitHub Actions                      |
 
 ## Como rodar localmente
@@ -57,6 +59,34 @@ src/
 
 Todo conteúdo vem de `src/data` e `src/content`; textos de interface vêm de `src/i18n`. O
 `pt.json` é a fonte de verdade: se faltar uma chave no `en.json`, o `astro check` falha.
+
+## Pipeline (GitHub Actions)
+
+```text
+PR / push ──▶ CI ──────────────────────────────────────────┐
+              npm ci → astro check → ESLint → Prettier     │ verde na main?
+              → build → lychee (links) → Lighthouse CI     ▼
+                                              Deploy ──▶ GitHub Pages
+                                              (mesmo commit verificado pelo CI)
+```
+
+- [ci.yml](.github/workflows/ci.yml) roda em todo pull request e push. O Lighthouse (mobile)
+  falha o job abaixo de 95 em Performance, Accessibility, Best Practices ou SEO; os limites
+  estão em [lighthouserc.json](lighthouserc.json) e os relatórios ficam como artefato do run.
+- [deploy.yml](.github/workflows/deploy.yml) é disparado pelo fim do CI (`workflow_run`) e só
+  publica se o CI passou num push na `main`. Ele faz o build do SHA exato que o CI verificou e
+  publica com `actions/deploy-pages`. Não existe deploy manual.
+- Permissões mínimas por job: só o job de deploy tem `pages: write` e `id-token: write`.
+- Actions de terceiros fixadas por SHA de commit, com a versão em comentário.
+- `concurrency` cancela CI obsoleto e enfileira deploys (nunca dois ao mesmo tempo).
+- [Dependabot](.github/dependabot.yml) abre PRs semanais para npm e GitHub Actions.
+
+Para rodar o Lighthouse localmente (precisa do Chrome instalado):
+
+```bash
+npm run build
+npx lhci autorun
+```
 
 ## Documentação do projeto
 
