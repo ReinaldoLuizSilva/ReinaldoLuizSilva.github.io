@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Two clouds bridged: Cobalto (GCP) and Óxido (OCI) from the approved palette. -->
+  <rect x="2" y="9" width="12" height="14" rx="2" fill="#2445D6" />
+  <rect x="18" y="9" width="12" height="14" rx="2" fill="#B23A22" />
+  <rect x="13" y="15" width="6" height="2" fill="#5B606A" />
+</svg>
