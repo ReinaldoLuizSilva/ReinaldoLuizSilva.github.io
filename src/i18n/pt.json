@@ -2,9 +2,32 @@
   "meta": {
     "description": "Portfólio de Reinaldo Luiz da Silva, analista de sistemas com foco em Cloud e DevOps."
   },
+  "layout": {
+    "skipToContent": "Pular para o conteúdo",
+    "homeLink": "Página inicial"
+  },
+  "language": {
+    "nav": "Idioma",
+    "names": {
+      "pt": "Português",
+      "en": "English"
+    },
+    "short": {
+      "pt": "PT",
+      "en": "EN"
+    }
+  },
+  "footer": {
+    "build": "build",
+    "deploy": "deploy",
+    "ci": "CI ✓",
+    "ciLabel": "Run do GitHub Actions que publicou esta versão",
+    "commitLabel": "Commit publicado no GitHub",
+    "localBuild": "build local",
+    "source": "código-fonte"
+  },
   "placeholder": {
     "status": "Site em construção.",
-    "github": "Enquanto isso, veja meus projetos no GitHub",
-    "otherLanguage": "Read in English"
+    "github": "Enquanto isso, veja meus projetos no GitHub"
   }
 }

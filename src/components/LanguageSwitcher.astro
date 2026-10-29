@@ -1,0 +1,65 @@
+---
+// "PT · EN": the current language is plain text, the other one links to the
+// same page in that language (never back to the home).
+import {
+  htmlLang,
+  locales,
+  pathFor,
+  useTranslations,
+  type Locale,
+  type Route,
+} from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  route: Route;
+}
+
+const { locale, route } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<nav class="mono" aria-label={t.language.nav}>
+  <ul>
+    {locales.map((code) => (
+      <li>
+        {code === locale ? (
+          <span aria-current="page">
+            {t.language.short[code]}
+            <span class="visually-hidden"> — {t.language.names[code]}</span>
+          </span>
+        ) : (
+          <a href={pathFor(code, route)} lang={htmlLang[code]} hreflang={htmlLang[code]}>
+            {t.language.short[code]}
+            <span class="visually-hidden"> — {t.language.names[code]}</span>
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  ul {
+    display: flex;
+    gap: var(--space-xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  li + li::before {
+    content: '·';
+    margin-inline-end: var(--space-xs);
+    color: var(--fg-muted);
+  }
+
+  [aria-current] {
+    color: var(--fg);
+  }
+
+  a {
+    /* 24px tall target (WCAG 2.2, 2.5.8); the separators give the spacing on the sides. */
+    display: inline-block;
+    min-block-size: 24px;
+  }
+</style>

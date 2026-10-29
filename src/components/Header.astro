@@ -1,0 +1,47 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { profile } from '../data/profile';
+import { pathFor, useTranslations, type Locale, type Route } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  route: Route;
+}
+
+const { locale, route } = Astro.props;
+const t = useTranslations(locale);
+const isHome = route.page === 'home';
+---
+
+<header class="container">
+  {isHome ? (
+    <span class="name">{profile.name}</span>
+  ) : (
+    <a class="name" href={pathFor(locale, { page: 'home' })} title={t.layout.homeLink}>
+      {profile.name}
+    </a>
+  )}
+  <LanguageSwitcher locale={locale} route={route} />
+</header>
+
+<style>
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-m);
+    padding-block: var(--space-m);
+    border-block-end: var(--rule-width) solid var(--rule);
+  }
+
+  .name {
+    font-weight: 600;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  a.name:hover {
+    text-decoration: underline;
+  }
+</style>
