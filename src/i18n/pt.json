@@ -24,6 +24,21 @@
     "email": "E-mail",
     "cv": "Currículo (PDF)"
   },
+  "projects": {
+    "title": "Projetos",
+    "next": "Próximo projeto",
+    "status": {
+      "concluído": "Concluído",
+      "em desenvolvimento": "Em desenvolvimento",
+      "em planejamento": "Em planejamento"
+    },
+    "statusLabel": "Status",
+    "stack": "Stack",
+    "repo": "Repositório no GitHub",
+    "demo": "Demo",
+    "diagram": "Diagrama de arquitetura",
+    "allProjects": "Todos os projetos"
+  },
   "experience": {
     "title": "Experiência",
     "present": "atual",

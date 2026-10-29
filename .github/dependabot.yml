@@ -12,6 +12,12 @@ updates:
     groups:
       npm-minor-patch:
         update-types: [minor, patch]
+    ignore:
+      # @astrojs/check and typescript-eslint only accept TypeScript <6.1 (peer
+      # dependency), so any newer TypeScript breaks `npm ci`. Remove this rule once
+      # both support it.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major', 'version-update:semver-minor']
 
   - package-ecosystem: github-actions
     directory: /

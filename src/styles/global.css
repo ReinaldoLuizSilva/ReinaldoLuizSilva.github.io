@@ -137,6 +137,17 @@ a:hover {
   border: 0;
 }
 
+/*
+ * Cross-page transition between the home and a project page (approved exception,
+ * CLAUDE.md §7): the project title carries `view-transition-name` on both pages.
+ * Native CSS, no JavaScript; off when the user prefers reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 /* Motion only on user action, and none at all if the user asks for less. */
 @media (prefers-reduced-motion: reduce) {
   *,

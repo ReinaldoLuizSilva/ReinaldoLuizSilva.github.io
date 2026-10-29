@@ -1,0 +1,376 @@
+---
+// TicketOps architecture: compute on Google Cloud, database on Oracle Cloud.
+// Each variant has a wide (horizontal) and a narrow (vertical) drawing; CSS shows
+// one of them. Labels are product names, the same in every language.
+// On the home page (simple variant) the outlines draw themselves as the diagram
+// scrolls into view — the only scroll-linked motion on the site.
+import type { DiagramVariant } from './types';
+
+interface Props {
+  variant: DiagramVariant;
+}
+
+const { variant } = Astro.props;
+---
+
+{variant === 'simple' ? (
+  <div class="ticketops simple">
+    <svg class="wide" viewBox="0 0 880 200" aria-hidden="true" focusable="false">
+      <rect class="box gcp draw step-1" x="1" y="20" width="360" height="160" pathLength="1" />
+      <text class="provider gcp" x="24" y="56">
+        Google Cloud · us-central1
+      </text>
+      <text class="service" x="24" y="112">
+        Cloud Run
+      </text>
+      <text class="detail" x="24" y="148">
+        FastAPI · Docker
+      </text>
+
+      <g class="link">
+        <path class="draw step-2" d="M361 94 H516 M361 106 H516" pathLength="1" />
+        <path class="draw step-3" d="M502 84 L518 100 L502 116" pathLength="1" />
+        <text class="detail" x="438" y="72" text-anchor="middle">
+          mTLS · wallet
+        </text>
+      </g>
+
+      <rect class="box oci draw step-4" x="519" y="20" width="360" height="160" pathLength="1" />
+      <text class="provider oci" x="542" y="56">
+        Oracle Cloud · sa-vinhedo-1
+      </text>
+      <text class="service" x="542" y="112">
+        Autonomous Database
+      </text>
+      <text class="detail" x="542" y="148">
+        Transaction Processing
+      </text>
+    </svg>
+
+    <svg class="narrow" viewBox="0 0 340 420" aria-hidden="true" focusable="false">
+      <rect class="box gcp draw step-1" x="1" y="1" width="338" height="140" pathLength="1" />
+      <text class="provider gcp" x="22" y="36">
+        Google Cloud · us-central1
+      </text>
+      <text class="service" x="22" y="88">
+        Cloud Run
+      </text>
+      <text class="detail" x="22" y="120">
+        FastAPI · Docker
+      </text>
+
+      <g class="link">
+        <path class="draw step-2" d="M164 141 V276 M176 141 V276" pathLength="1" />
+        <path class="draw step-3" d="M154 262 L170 278 L186 262" pathLength="1" />
+        <text class="detail" x="196" y="214">
+          mTLS · wallet
+        </text>
+      </g>
+
+      <rect class="box oci draw step-4" x="1" y="279" width="338" height="140" pathLength="1" />
+      <text class="provider oci" x="22" y="314">
+        Oracle Cloud · sa-vinhedo-1
+      </text>
+      <text class="service" x="22" y="364">
+        Autonomous Database
+      </text>
+      <text class="detail" x="22" y="396">
+        Transaction Processing
+      </text>
+    </svg>
+  </div>
+) : (
+  <div class="ticketops full">
+    <svg class="wide" viewBox="0 0 1040 460" aria-hidden="true" focusable="false">
+      <rect class="box" x="1" y="170" width="190" height="110" />
+      <text class="detail" x="20" y="204">
+        CI/CD
+      </text>
+      <text class="item strong" x="20" y="246">
+        GitHub Actions
+      </text>
+
+      <g class="link">
+        <path d="M191 225 H256 M244 215 L257 225 L244 235" />
+        <text class="detail" x="224" y="208" text-anchor="middle">
+          WIF
+        </text>
+      </g>
+
+      <rect class="box gcp" x="259" y="1" width="380" height="458" />
+      <text class="provider gcp" x="280" y="34">
+        Google Cloud · us-central1
+      </text>
+      <rect class="row strong-row" x="280" y="56" width="320" height="96" />
+      <text class="service" x="300" y="98">
+        Cloud Run
+      </text>
+      <text class="detail" x="300" y="130">
+        FastAPI · Docker
+      </text>
+      <rect class="row" x="280" y="172" width="320" height="52" />
+      <text class="item" x="300" y="205">
+        Artifact Registry
+      </text>
+      <rect class="row" x="280" y="236" width="320" height="52" />
+      <text class="item" x="300" y="269">
+        Secret Manager
+      </text>
+      <rect class="row" x="280" y="300" width="320" height="52" />
+      <text class="item" x="300" y="333">
+        Cloud Logging
+      </text>
+      <rect class="row" x="280" y="364" width="320" height="52" />
+      <text class="item" x="300" y="397">
+        Cloud Monitoring
+      </text>
+
+      <g class="link">
+        <path d="M600 98 H816 M600 110 H816 M802 88 L818 104 L802 120" />
+        <text class="detail" x="729" y="78" text-anchor="middle">
+          mTLS · wallet
+        </text>
+      </g>
+
+      <rect class="box oci" x="820" y="20" width="219" height="168" />
+      <text class="provider oci" x="840" y="52">
+        Oracle Cloud
+      </text>
+      <text class="detail" x="840" y="74">
+        sa-vinhedo-1
+      </text>
+      <text class="service" x="840" y="120">
+        Autonomous
+      </text>
+      <text class="service" x="840" y="152">
+        Database
+      </text>
+    </svg>
+
+    <svg class="narrow" viewBox="0 0 340 760" aria-hidden="true" focusable="false">
+      <rect class="box" x="1" y="1" width="338" height="84" />
+      <text class="detail" x="22" y="32">
+        CI/CD
+      </text>
+      <text class="item strong" x="22" y="66">
+        GitHub Actions
+      </text>
+
+      <g class="link">
+        <path d="M170 85 V136 M160 124 L170 137 L180 124" />
+        <text class="detail" x="188" y="117">
+          WIF
+        </text>
+      </g>
+
+      <rect class="box gcp" x="1" y="139" width="338" height="400" />
+      <text class="provider gcp" x="22" y="170">
+        Google Cloud · us-central1
+      </text>
+      <rect class="row" x="20" y="190" width="300" height="46" />
+      <text class="item" x="38" y="220">
+        Artifact Registry
+      </text>
+      <rect class="row" x="20" y="246" width="300" height="46" />
+      <text class="item" x="38" y="276">
+        Secret Manager
+      </text>
+      <rect class="row" x="20" y="302" width="300" height="46" />
+      <text class="item" x="38" y="332">
+        Cloud Logging
+      </text>
+      <rect class="row" x="20" y="358" width="300" height="46" />
+      <text class="item" x="38" y="388">
+        Cloud Monitoring
+      </text>
+      <rect class="row strong-row" x="20" y="420" width="300" height="96" />
+      <text class="service" x="38" y="462">
+        Cloud Run
+      </text>
+      <text class="detail" x="38" y="494">
+        FastAPI · Docker
+      </text>
+
+      <g class="link">
+        <path d="M164 516 V616 M176 516 V616 M154 602 L170 618 L186 602" />
+        <text class="detail" x="196" y="580">
+          mTLS · wallet
+        </text>
+      </g>
+
+      <rect class="box oci" x="1" y="619" width="338" height="140" />
+      <text class="provider oci" x="22" y="654">
+        Oracle Cloud · sa-vinhedo-1
+      </text>
+      <text class="service" x="22" y="704">
+        Autonomous Database
+      </text>
+      <text class="detail" x="22" y="736">
+        Transaction Processing
+      </text>
+    </svg>
+  </div>
+)}
+
+<style>
+  svg {
+    inline-size: 100%;
+    block-size: auto;
+    overflow: visible;
+  }
+
+  .simple .wide {
+    max-inline-size: 52rem;
+  }
+
+  .full .wide {
+    max-inline-size: 64rem;
+  }
+
+  .narrow {
+    max-inline-size: 26rem;
+  }
+
+  .wide {
+    display: none;
+  }
+
+  @media (min-width: 48rem) {
+    .simple .wide {
+      display: block;
+    }
+
+    .simple .narrow {
+      display: none;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .full .wide {
+      display: block;
+    }
+
+    .full .narrow {
+      display: none;
+    }
+  }
+
+  /* Outlines: neutral by default, one color per cloud. */
+  .box,
+  .row,
+  .link path {
+    fill: none;
+    stroke: var(--fg);
+    stroke-width: 1.5;
+  }
+
+  .row {
+    stroke: var(--rule);
+  }
+
+  .strong-row {
+    stroke: var(--gcp);
+  }
+
+  .box.gcp {
+    stroke: var(--gcp);
+  }
+
+  .box.oci {
+    stroke: var(--oci);
+  }
+
+  .link path {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  text {
+    fill: var(--fg);
+    font-family: var(--font-sans);
+  }
+
+  .provider,
+  .detail {
+    font-family: var(--font-mono);
+    font-size: 15px;
+  }
+
+  .provider.gcp {
+    fill: var(--gcp);
+  }
+
+  .provider.oci {
+    fill: var(--oci);
+  }
+
+  .detail {
+    fill: var(--fg-muted);
+  }
+
+  .service {
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  /* "Autonomous Database" must fit on one line inside its box. */
+  .simple .wide .service {
+    font-size: 26px;
+  }
+
+  .narrow .service {
+    font-size: 24px;
+  }
+
+  .item {
+    font-size: 18px;
+  }
+
+  .strong {
+    font-weight: 700;
+  }
+
+  /*
+   * Scroll-linked drawing (home only). Browsers without scroll-driven animations,
+   * and users who prefer reduced motion, get the finished drawing.
+   */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .simple svg {
+        view-timeline-name: --ticketops-diagram;
+      }
+
+      .simple .draw {
+        stroke-dasharray: 1;
+        animation: ticketops-draw linear both;
+        animation-timeline: --ticketops-diagram;
+      }
+
+      .simple .step-1 {
+        animation-range: entry 0% entry 60%;
+      }
+
+      .simple .step-2 {
+        animation-range: entry 60% cover 40%;
+      }
+
+      .simple .step-3 {
+        animation-range: cover 38% cover 44%;
+      }
+
+      .simple .step-4 {
+        animation-range: cover 42% cover 55%;
+      }
+    }
+  }
+
+  @keyframes ticketops-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

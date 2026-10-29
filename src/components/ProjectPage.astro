@@ -1,0 +1,162 @@
+---
+// Project detail page for one locale: header, full architecture diagram (if the
+// project has one) and the Markdown body with the write-up.
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectDiagram from './ProjectDiagram.astro';
+import { profile } from '../data/profile';
+import type { Project } from '../data/projects';
+import { pathFor, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  project: Project;
+}
+
+const { locale, project } = Astro.props;
+const { slug, title, summary, status, stack, repo, demo, diagramDescription } = project.data;
+const t = useTranslations(locale);
+const { Content } = await render(project);
+---
+
+<BaseLayout
+  locale={locale}
+  route={{ page: 'project', slug }}
+  title={`${title} · ${profile.name}`}
+  description={summary}
+>
+  <article class="container project">
+    <header>
+      <h1 style={`view-transition-name: project-${slug}`}>{title}</h1>
+      <p class="summary">{summary}</p>
+      <dl class="mono facts">
+        <div>
+          <dt>{t.projects.statusLabel}</dt>
+          <dd>{t.projects.status[status]}</dd>
+        </div>
+        <div>
+          <dt>{t.projects.stack}</dt>
+          <dd>{stack.join(' · ')}</dd>
+        </div>
+      </dl>
+      <ul class="links">
+        <li>
+          <a href={repo} rel="noopener noreferrer">
+            {t.projects.repo}
+          </a>
+        </li>
+        {demo && (
+          <li>
+            <a href={demo} rel="noopener noreferrer">
+              {t.projects.demo}
+            </a>
+          </li>
+        )}
+      </ul>
+    </header>
+
+    <ProjectDiagram
+      slug={slug}
+      variant="full"
+      label={t.projects.diagram}
+      description={diagramDescription}
+      showDescription
+    />
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <p class="back">
+      <a href={`${pathFor(locale, { page: 'home' })}#projects`}>{t.projects.allProjects}</a>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .project {
+    display: grid;
+    gap: var(--space-xl);
+    padding-block: var(--space-2xl) var(--space-l);
+  }
+
+  header {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  h1 {
+    font-size: var(--step-hero);
+    font-weight: 800;
+    font-stretch: 125%;
+    line-height: 0.98;
+    overflow-wrap: break-word;
+  }
+
+  .summary {
+    font-size: var(--step-1);
+  }
+
+  .facts {
+    display: grid;
+    gap: var(--space-2xs);
+    max-inline-size: var(--measure);
+  }
+
+  .facts div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-xs);
+  }
+
+  dt {
+    color: var(--fg-muted);
+  }
+
+  dt::after {
+    content: ':';
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-m);
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Markdown body: sections separated by the same thin rules as the home. */
+  .prose {
+    display: grid;
+    gap: var(--space-m);
+    max-inline-size: var(--measure);
+  }
+
+  .prose :global(h2) {
+    margin-block-start: var(--space-l);
+    padding-block-start: var(--space-l);
+    border-block-start: var(--rule-width) solid var(--rule);
+    font-size: var(--step-2);
+  }
+
+  .prose :global(h2:first-child) {
+    margin-block-start: 0;
+  }
+
+  .prose :global(h3) {
+    margin-block-start: var(--space-s);
+    font-size: var(--step-1);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    display: grid;
+    gap: var(--space-xs);
+    padding-inline-start: 1.1em;
+  }
+
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+</style>
