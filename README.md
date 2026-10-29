@@ -49,16 +49,46 @@ O `.npmrc` usa `engine-strict=true`: a instalação falha de propósito em outra
 ```text
 src/
 ├── components/          componentes sem lógica de conteúdo
+│   └── diagrams/        diagramas de arquitetura em SVG, um por projeto (opcional)
 ├── content/projects/    um arquivo por projeto, em pt/ e en/
-├── data/                perfil, experiência, certificações, stack, formação
+├── data/                perfil, experiência, certificações, stack, formação, projetos
 ├── i18n/                textos de interface (pt.json, en.json) e utilitários
 ├── layouts/
-├── pages/               rotas: / (PT) e /en/ (EN)
+├── pages/               rotas: / e /projetos/<slug>/ (PT), /en/ e /en/projects/<slug>/ (EN)
 └── styles/              tokens e estilos globais
 ```
 
 Todo conteúdo vem de `src/data` e `src/content`; textos de interface vêm de `src/i18n`. O
 `pt.json` é a fonte de verdade: se faltar uma chave no `en.json`, o `astro check` falha.
+
+## Como adicionar um projeto
+
+1. Crie `src/content/projects/pt/<slug>.md` e `src/content/projects/en/<slug>.md`. O nome do
+   arquivo é o `slug` (minúsculas, números e hífens).
+2. Preencha o frontmatter; o esquema é validado no build
+   ([src/content.config.ts](src/content.config.ts)):
+
+   ```yaml
+   slug: meu-projeto
+   title: Meu Projeto
+   summary: Uma frase, mostrada na home.
+   status: em desenvolvimento # concluído | em desenvolvimento | em planejamento
+   stack: [Terraform, GitHub Actions]
+   repo: https://github.com/ReinaldoLuizSilva/meu-projeto
+   featured: false # true = destaque na home, com diagrama
+   order: 3 # posição na lista
+   # demo: https://...                 opcional
+   # diagramDescription: ...           texto equivalente do diagrama, se houver
+   ```
+
+3. Escreva o corpo em Markdown com as seções `##` da página de detalhe (problema, stack e por
+   quê, decisões e trade-offs, o que aprendi, próximos passos).
+4. Opcional: um diagrama em `src/components/diagrams/<slug>.astro` (veja o do TicketOps). Sem
+   ele, a página simplesmente não mostra diagrama.
+
+Nenhum componente precisa ser alterado: a home e as páginas `/projetos/<slug>/` e
+`/en/projects/<slug>/` são geradas a partir da coleção. O build falha se o projeto existir em
+um idioma e não no outro, ou se o nome do arquivo não bater com o `slug`.
 
 ## Pipeline (GitHub Actions)
 
