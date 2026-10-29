@@ -1,0 +1,35 @@
+---
+// Technologies as "A · B · C" in Plex Mono. Each item stays on one line and
+// carries its own trailing separator, so a wrapped line never starts with "·".
+interface Props {
+  items: readonly string[];
+  label?: string;
+}
+
+const { items, label } = Astro.props;
+---
+
+<ul class="mono" aria-label={label}>
+  {items.map((item) => (
+    <li>{item}</li>
+  ))}
+</ul>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    white-space: nowrap;
+  }
+
+  li:not(:last-child)::after {
+    content: '·';
+    margin-inline-start: var(--space-xs);
+  }
+</style>
