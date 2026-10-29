@@ -1,6 +1,12 @@
 {
   "meta": {
-    "description": "Portfólio de Reinaldo Luiz da Silva, analista de sistemas com foco em Cloud e DevOps."
+    "description": "Portfólio de Reinaldo Luiz da Silva, analista de sistemas com foco em Cloud e DevOps.",
+    "ogImageAlt": "Reinaldo Luiz da Silva, Analista de Sistemas · Cloud & DevOps: “Infraestrutura multicloud, do banco de dados ao pipeline.” Ao lado, um diagrama liga Google Cloud e Oracle Cloud."
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "body": "O endereço que você abriu não existe ou mudou de lugar.",
+    "home": "Ir para a página inicial"
   },
   "layout": {
     "skipToContent": "Pular para o conteúdo",

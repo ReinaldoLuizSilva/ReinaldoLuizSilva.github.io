@@ -14,6 +14,9 @@ const dictionaries: Record<Locale, Dictionary> = { pt, en };
 /** Value for `<html lang>` and `hreflang`. */
 export const htmlLang: Record<Locale, string> = { pt: 'pt-BR', en: 'en' };
 
+/** Value for Open Graph `og:locale` (underscore format). */
+export const ogLocale: Record<Locale, string> = { pt: 'pt_BR', en: 'en_US' };
+
 /** Content that exists in every locale (data files use this for translated text). */
 export type Localized<T = string> = Record<Locale, T>;
 

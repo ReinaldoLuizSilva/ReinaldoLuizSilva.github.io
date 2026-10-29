@@ -15,6 +15,7 @@ import { certifications } from '../data/certifications';
 import { skills } from '../data/skills';
 import { education } from '../data/education';
 import { getProjects } from '../data/projects';
+import { personJsonLd } from '../data/structured-data';
 import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -31,6 +32,7 @@ const projects = await getProjects(locale);
   route={{ page: 'home' }}
   title={`${profile.name} · ${profile.title[locale]}`}
   description={t.meta.description}
+  jsonLd={personJsonLd(locale, Astro.site!)}
 >
   <Hero
     locale={locale}

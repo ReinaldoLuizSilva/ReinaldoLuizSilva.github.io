@@ -19,6 +19,8 @@ export const profile = {
     pt: 'Novo Hamburgo, RS, Brasil',
     en: 'Novo Hamburgo, RS, Brazil',
   } satisfies Localized,
+  /** Same place, in structured form for the JSON-LD (ISO country code). */
+  address: { locality: 'Novo Hamburgo', region: 'RS', country: 'BR' },
   links: {
     github: 'https://github.com/ReinaldoLuizSilva',
     linkedin: 'https://www.linkedin.com/in/reinaldoluizdasilva',

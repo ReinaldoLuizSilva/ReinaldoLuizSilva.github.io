@@ -5,12 +5,13 @@ import { pathFor, useTranslations, type Locale, type Route } from '../i18n/utils
 
 interface Props {
   locale: Locale;
-  route: Route;
+  /** Omitted on the 404, which is bilingual and has no equivalent page to switch to. */
+  route?: Route | undefined;
 }
 
 const { locale, route } = Astro.props;
 const t = useTranslations(locale);
-const isHome = route.page === 'home';
+const isHome = route?.page === 'home';
 ---
 
 <header class="container">
@@ -21,7 +22,7 @@ const isHome = route.page === 'home';
       {profile.name}
     </a>
   )}
-  <LanguageSwitcher locale={locale} route={route} />
+  {route && <LanguageSwitcher locale={locale} route={route} />}
 </header>
 
 <style>

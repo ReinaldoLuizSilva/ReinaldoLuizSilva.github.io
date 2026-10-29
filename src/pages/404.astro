@@ -1,0 +1,62 @@
+---
+// Bilingual 404: GitHub Pages serves this file for any missing path, in either
+// language, so the message is shown in both. PT is the page language; the EN
+// block is marked lang="en".
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { htmlLang, locales, pathFor, useTranslations } from '../i18n/utils';
+
+const t = useTranslations('pt');
+const messages = locales.map((locale) => ({ locale, t: useTranslations(locale) }));
+---
+
+<BaseLayout
+  locale="pt"
+  title={messages.map(({ t }) => t.notFound.title).join(' · ')}
+  description={t.notFound.body}
+>
+  <div class="container not-found">
+    <p class="mono code">404</p>
+    {messages.map(({ locale, t }, index) => (
+      <section lang={htmlLang[locale]} aria-labelledby={`not-found-${locale}`}>
+        {index === 0 ? (
+          <h1 id={`not-found-${locale}`}>{t.notFound.title}</h1>
+        ) : (
+          <h2 id={`not-found-${locale}`}>{t.notFound.title}</h2>
+        )}
+        <p>{t.notFound.body}</p>
+        <p>
+          <a href={pathFor(locale, { page: 'home' })}>{t.notFound.home}</a>
+        </p>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    gap: var(--space-xl);
+    padding-block: var(--space-2xl) var(--space-l);
+  }
+
+  .code {
+    color: var(--fg-muted);
+  }
+
+  section {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  section + section {
+    padding-block-start: var(--space-l);
+    border-block-start: var(--rule-width) solid var(--rule);
+  }
+
+  h1,
+  h2 {
+    font-size: var(--step-3);
+    font-weight: 800;
+    font-stretch: 125%;
+  }
+</style>

@@ -43,10 +43,27 @@ O `.npmrc` usa `engine-strict=true`: a instalação falha de propósito em outra
 | `npm run lint`         | ESLint                                        |
 | `npm run format`       | Formata com Prettier                          |
 | `npm run format:check` | Verifica formatação sem alterar (usado no CI) |
+| `npm run og`           | Regera as imagens de compartilhamento         |
+
+## SEO e compartilhamento
+
+- `<title>`, `meta description`, URL canônica e `hreflang` (com `x-default` em PT) em todas as
+  páginas, nos dois idiomas.
+- Open Graph e Twitter Card com uma imagem 1200×630 por idioma, em `public/og/`. As imagens
+  são geradas por [scripts/og-images.ts](scripts/og-images.ts) a partir do nome, título e frase
+  do hero em `src/data/profile.ts`, com as fontes e cores do site. O script usa o Chrome
+  instalado na máquina (ou `CHROME_PATH`). Os PNGs ficam versionados, então o build e o CI
+  não precisam de navegador. Rode `npm run og` depois de mudar algum desses textos.
+- `sitemap-index.xml` gerado pelo `@astrojs/sitemap` (a 404 fica de fora) e
+  [robots.txt](public/robots.txt) apontando para ele.
+- JSON-LD `Person` na home, montado só com os dados de `src/data/`.
+- Página 404 bilíngue: o GitHub Pages serve o mesmo `404.html` para qualquer endereço
+  inexistente, em qualquer idioma.
 
 ## Estrutura
 
 ```text
+scripts/                 geração das imagens Open Graph
 src/
 ├── components/          componentes sem lógica de conteúdo
 │   └── diagrams/        diagramas de arquitetura em SVG, um por projeto (opcional)
@@ -101,8 +118,11 @@ PR / push ──▶ CI ───────────────────
 ```
 
 - [ci.yml](.github/workflows/ci.yml) roda em todo pull request e push. O Lighthouse (mobile)
-  falha o job abaixo de 95 em Performance, Accessibility, Best Practices ou SEO; os limites
-  estão em [lighthouserc.json](lighthouserc.json) e os relatórios ficam como artefato do run.
+  falha o job abaixo de 95 em Performance, Accessibility, Best Practices ou SEO, em **todas** as
+  páginas do build (inclusive as de projeto e a 404); os limites estão em
+  [lighthouserc.json](lighthouserc.json) e os relatórios ficam como artefato do run.
+- O lychee checa os links do próprio site (canonical, `hreflang`) contra o `dist/` do build,
+  não contra o site no ar, então uma página nova é verificada antes de existir em produção.
 - [deploy.yml](.github/workflows/deploy.yml) é disparado pelo fim do CI (`workflow_run`) e só
   publica se o CI passou num push na `main`. Ele faz o build do SHA exato que o CI verificou e
   publica com `actions/deploy-pages`. Não existe deploy manual.
