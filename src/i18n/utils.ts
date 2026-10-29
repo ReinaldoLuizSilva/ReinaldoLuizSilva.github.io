@@ -14,6 +14,21 @@ const dictionaries: Record<Locale, Dictionary> = { pt, en };
 /** Value for `<html lang>` and `hreflang`. */
 export const htmlLang: Record<Locale, string> = { pt: 'pt-BR', en: 'en' };
 
+/** Content that exists in every locale (data files use this for translated text). */
+export type Localized<T = string> = Record<Locale, T>;
+
+/** Month precision date used in data files, e.g. `2025-06`. */
+export type YearMonth = `${number}-${number}`;
+
+/** `2025-06` → "jun 2025" (PT) / "Jun 2025" (EN). */
+export function formatYearMonth(locale: Locale, value: YearMonth): string {
+  const [year, month] = value.split('-').map(Number) as [number, number];
+  const monthName = new Intl.DateTimeFormat(htmlLang[locale], { month: 'short', timeZone: 'UTC' })
+    .format(new Date(Date.UTC(year, month - 1, 1)))
+    .replace('.', '');
+  return `${monthName} ${year}`;
+}
+
 export function useTranslations(locale: Locale): Dictionary {
   return dictionaries[locale];
 }
