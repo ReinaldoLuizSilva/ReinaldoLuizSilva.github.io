@@ -1,6 +1,12 @@
 {
   "meta": {
-    "description": "Portfolio of Reinaldo Luiz da Silva, systems analyst focused on Cloud and DevOps."
+    "description": "Portfolio of Reinaldo Luiz da Silva, systems analyst focused on Cloud and DevOps.",
+    "ogImageAlt": "Reinaldo Luiz da Silva, Systems Analyst · Cloud & DevOps: “Multicloud infrastructure, from the database to the pipeline.” Beside it, a diagram connects Google Cloud and Oracle Cloud."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The address you opened doesn’t exist or has moved.",
+    "home": "Go to the home page"
   },
   "layout": {
     "skipToContent": "Skip to content",
