@@ -1,17 +1,19 @@
 ---
 // Home section frame: thin rule on top, title in a label column on wide
-// screens, stacked above the content on narrow ones.
+// screens, stacked above the content on narrow ones. `stacked` keeps the title
+// above the content at every width, for sections that need the full width.
 interface Props {
   id: string;
   title: string;
+  stacked?: boolean;
 }
 
-const { id, title } = Astro.props;
+const { id, title, stacked = false } = Astro.props;
 const headingId = `${id}-title`;
 ---
 
 <section id={id} class="container" aria-labelledby={headingId}>
-  <div class="frame">
+  <div class:list={['frame', { stacked }]}>
     <h2 id={headingId}>{title}</h2>
     <div class="body">
       <slot />
@@ -33,7 +35,7 @@ const headingId = `${id}-title`;
   }
 
   @media (min-width: 48rem) {
-    .frame {
+    .frame:not(.stacked) {
       grid-template-columns: 14rem 1fr;
       gap: var(--space-l);
     }

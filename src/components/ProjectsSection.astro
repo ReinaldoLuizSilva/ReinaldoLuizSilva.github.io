@@ -1,0 +1,130 @@
+---
+// Projects as a large typographic list. Featured projects carry their
+// architecture diagram; the others are a single row. A project in planning is
+// labelled "next project" rather than by its status.
+import Section from './Section.astro';
+import ProjectDiagram from './ProjectDiagram.astro';
+import type { Project } from '../data/projects';
+import { pathFor, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  projects: Project[];
+}
+
+const { locale, projects } = Astro.props;
+const t = useTranslations(locale);
+
+const statusLabel = ({ data }: Project) =>
+  !data.featured && data.status === 'em planejamento'
+    ? t.projects.next
+    : t.projects.status[data.status];
+---
+
+<Section id="projects" title={t.projects.title} stacked>
+  <ul class="projects">
+    {projects.map((project) => {
+      const { slug, title, summary, stack, featured, diagramDescription } = project.data;
+      return (
+        <li class:list={[{ featured }]}>
+          <div class="head">
+            <h3 style={`view-transition-name: project-${slug}`}>
+              <a href={pathFor(locale, { page: 'project', slug })}>{title}</a>
+            </h3>
+            <span class="mono status">
+              <span class="visually-hidden">{t.projects.statusLabel}: </span>
+              {statusLabel(project)}
+            </span>
+          </div>
+          {featured && (
+            <ProjectDiagram
+              slug={slug}
+              variant="simple"
+              label={t.projects.diagram}
+              description={diagramDescription}
+            />
+          )}
+          <p class="summary">{summary}</p>
+          {featured && (
+            <ul class="mono stack" aria-label={t.projects.stack}>
+              {stack.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+</Section>
+
+<style>
+  .projects {
+    padding: 0;
+    list-style: none;
+  }
+
+  .projects > li {
+    display: grid;
+    gap: var(--space-m);
+    padding-block: var(--space-l);
+  }
+
+  .projects > li + li {
+    border-block-start: var(--rule-width) solid var(--rule);
+  }
+
+  .projects > li:first-child {
+    padding-block-start: 0;
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-m);
+  }
+
+  h3 {
+    font-size: var(--step-2);
+    font-weight: 700;
+    font-stretch: 112%;
+  }
+
+  .featured h3 {
+    font-size: var(--step-3);
+    font-weight: 800;
+    font-stretch: 125%;
+  }
+
+  h3 a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  h3 a:hover,
+  h3 a:focus-visible {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .status {
+    color: var(--fg-muted);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+    color: var(--fg-muted);
+  }
+
+  .stack li + li::before {
+    content: '·';
+    display: inline-block;
+    margin-inline: var(--space-xs);
+  }
+</style>
