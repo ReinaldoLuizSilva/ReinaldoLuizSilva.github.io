@@ -410,16 +410,19 @@ Passos manuais (o Claude Code deve listar, não tentar fazer):
 ├── .github/
 │   ├── workflows/ (ci.yml, deploy.yml)
 │   └── dependabot.yml
-├── public/ (favicon, cv-pt.pdf, cv-en.pdf, robots.txt, fontes)
+├── public/ (favicon, cv-pt.pdf, cv-en.pdf, robots.txt, fonts/, og/)
+├── scripts/ (og-images.ts — gera public/og/ com `npm run og`)
 ├── src/
-│   ├── components/
+│   ├── components/ (diagrams/ — um SVG por projeto, opcional)
 │   ├── content/projects/ (pt/, en/)
-│   ├── data/ (experiência, certificações, stack, formação)
+│   ├── content.config.ts (esquema Zod dos projetos)
+│   ├── data/ (perfil, experiência, certificações, stack, formação, projetos, build)
 │   ├── i18n/ (pt.json, en.json, utils.ts)
 │   ├── layouts/
-│   ├── pages/ (index.astro, projetos/, en/)
+│   ├── pages/ (index.astro, 404.astro, projetos/, en/)
 │   └── styles/ (tokens.css, global.css)
 ├── .nvmrc
+├── GLOSSARY.md
 ├── astro.config.mjs
 ├── lighthouserc.json
 ├── CLAUDE.md
