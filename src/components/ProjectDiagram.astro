@@ -1,0 +1,46 @@
+---
+// Architecture diagram of a project, if it has one: src/components/diagrams/<slug>.astro.
+// The diagram file is optional, so adding a project never requires editing this file.
+// The SVG is decorative for assistive tech; the description is its text equivalent.
+import type { DiagramVariant } from './diagrams/types';
+
+interface Props {
+  slug: string;
+  variant: DiagramVariant;
+  label: string;
+  description?: string | undefined;
+  /** Show the description under the diagram (detail page) or keep it for screen readers only (home). */
+  showDescription?: boolean;
+}
+
+type DiagramComponent = (props: { variant: DiagramVariant }) => unknown;
+
+const diagrams = import.meta.glob<{ default: DiagramComponent }>('./diagrams/*.astro', {
+  eager: true,
+});
+
+const { slug, variant, label, description, showDescription = false } = Astro.props;
+const Diagram = diagrams[`./diagrams/${slug}.astro`]?.default;
+---
+
+{Diagram && (
+  <figure class:list={['diagram', variant]}>
+    <Diagram variant={variant} />
+    <figcaption class:list={[{ 'visually-hidden': !showDescription }]}>
+      <span class="visually-hidden">{label}: </span>
+      {description}
+    </figcaption>
+  </figure>
+)}
+
+<style>
+  .diagram {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  figcaption {
+    max-inline-size: var(--measure);
+    color: var(--fg-muted);
+  }
+</style>
