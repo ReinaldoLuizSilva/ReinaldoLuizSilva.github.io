@@ -54,10 +54,14 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # --root-dir resolves root-relative links ("/en/") against dist/.
+          # --remap does the same for absolute links to this site (canonical, hreflang),
+          # so a new page is checked in this build instead of on the live site, where
+          # it only exists after the deploy.
           # 999 is LinkedIn's anti-bot status; 429 is rate limiting, not a broken link.
           args: >-
             --no-progress
             --root-dir ${{ github.workspace }}/dist
+            --remap '^https://reinaldoluizsilva\.github\.io/(.*)$ file://${{ github.workspace }}/dist/$1'
             --accept 200..=299,429,999
             './dist/**/*.html'
           fail: true
