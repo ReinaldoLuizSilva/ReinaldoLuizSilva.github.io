@@ -1,0 +1,70 @@
+/*
+ * Design tokens — "Concreto & duas nuvens" palette (approved in M2, CLAUDE.md §7).
+ * Components use only the semantic tokens (--bg, --fg, --gcp...), never the raw colors,
+ * so light/dark switching happens here and nowhere else.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Raw palette, light theme */
+  --color-concrete: #f2f3ef;
+  --color-graphite: #16181d;
+  --color-mist: #5b606a;
+  --color-cobalt: #2445d6;
+  --color-oxide: #b23a22;
+  --color-joint: #c9ccc4;
+
+  /* Semantic roles */
+  --bg: var(--color-concrete);
+  --fg: var(--color-graphite);
+  --fg-muted: var(--color-mist);
+  --link: var(--color-cobalt);
+  --focus: var(--color-cobalt);
+  --gcp: var(--color-cobalt);
+  --oci: var(--color-oxide); /* OCI side of diagrams only */
+  --rule: var(--color-joint);
+
+  /* Typography */
+  --font-sans:
+    'Mona Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Consolas, monospace;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3125rem;
+  --step-2: clamp(1.6rem, 1.3rem + 1.4vw, 2.4rem);
+  --step-3: clamp(2rem, 1.5rem + 2.4vw, 3.6rem);
+  /* Hero phrase: ~2.6rem at 360px up to 8rem on wide screens. */
+  --step-hero: clamp(2.6rem, 1.4rem + 5.3vw, 8rem);
+
+  --leading-tight: 1.05;
+  --leading-body: 1.55;
+
+  /* Spacing */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-s: 0.75rem;
+  --space-m: 1.25rem;
+  --space-l: 2rem;
+  --space-xl: 3.5rem;
+  --space-2xl: clamp(4rem, 3rem + 5vw, 7rem);
+
+  /* Layout */
+  --gutter: clamp(1rem, 0.5rem + 3vw, 3rem);
+  --page-max: 84rem;
+  --measure: 68ch; /* keeps paragraphs under ~75 characters */
+  --rule-width: 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-concrete: #121419;
+    --color-graphite: #e6e7e2;
+    --color-mist: #9a9fa8;
+    --color-cobalt: #8fa3ff;
+    --color-oxide: #f0856b;
+    --color-joint: #2c3038;
+  }
+}
