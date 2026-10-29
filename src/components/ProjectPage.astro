@@ -4,6 +4,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectDiagram from './ProjectDiagram.astro';
+import StackList from './StackList.astro';
 import { profile } from '../data/profile';
 import type { Project } from '../data/projects';
 import { pathFor, useTranslations, type Locale } from '../i18n/utils';
@@ -37,7 +38,9 @@ const { Content } = await render(project);
         </div>
         <div>
           <dt>{t.projects.stack}</dt>
-          <dd>{stack.join(' · ')}</dd>
+          <dd>
+            <StackList items={stack} />
+          </dd>
         </div>
       </dl>
       <ul class="links">
