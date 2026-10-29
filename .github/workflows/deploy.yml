@@ -44,7 +44,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Build metadata for the versioned footer (used from M3 on).
+      # Build metadata for the versioned footer (read in src/data/build.ts).
       - name: Build
         run: npm run build
         env:
