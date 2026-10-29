@@ -1,0 +1,43 @@
+---
+import Section from './Section.astro';
+import type { Education } from '../data/education';
+import { formatYearMonth, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  items: Education[];
+}
+
+const { locale, items } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id="education" title={t.education.title}>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <span>{item.degree[locale]}</span>
+        <span class="mono meta">
+          {item.institution} · {t.education.completed}{' '}
+          <time datetime={item.completed}>{formatYearMonth(locale, item.completed)}</time>
+        </span>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .meta {
+    color: var(--fg-muted);
+  }
+</style>

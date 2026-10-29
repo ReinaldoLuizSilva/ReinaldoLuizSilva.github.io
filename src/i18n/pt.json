@@ -17,6 +17,35 @@
       "en": "EN"
     }
   },
+  "links": {
+    "nav": "Links de contato",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "E-mail",
+    "cv": "Currículo (PDF)"
+  },
+  "experience": {
+    "title": "Experiência",
+    "present": "atual",
+    "activities": "Atuação",
+    "highlights": "Destaques"
+  },
+  "certifications": {
+    "title": "Certificações",
+    "verify": "verificar",
+    "inProgress": "em andamento"
+  },
+  "skills": {
+    "title": "Stack"
+  },
+  "education": {
+    "title": "Formação",
+    "completed": "concluído em"
+  },
+  "contact": {
+    "title": "Contato",
+    "heading": "Vamos conversar?"
+  },
   "footer": {
     "build": "build",
     "deploy": "deploy",
@@ -25,9 +54,5 @@
     "commitLabel": "Commit publicado no GitHub",
     "localBuild": "build local",
     "source": "código-fonte"
-  },
-  "placeholder": {
-    "status": "Site em construção.",
-    "github": "Enquanto isso, veja meus projetos no GitHub"
   }
 }

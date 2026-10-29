@@ -1,0 +1,44 @@
+---
+// Home page for one locale. Sections receive their data as props; adding a
+// section means adding one component and one line here.
+// The Projects section (between Hero and Experience) arrives in M5.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import ExperienceSection from './ExperienceSection.astro';
+import CertificationsSection from './CertificationsSection.astro';
+import SkillsSection from './SkillsSection.astro';
+import EducationSection from './EducationSection.astro';
+import ContactSection from './ContactSection.astro';
+import { profile } from '../data/profile';
+import { experience } from '../data/experience';
+import { certifications } from '../data/certifications';
+import { skills } from '../data/skills';
+import { education } from '../data/education';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<BaseLayout
+  locale={locale}
+  route={{ page: 'home' }}
+  title={`${profile.name} · ${profile.title[locale]}`}
+  description={t.meta.description}
+>
+  <Hero
+    locale={locale}
+    headline={profile.headline[locale]}
+    title={profile.title[locale]}
+    positioning={profile.positioning[locale]}
+  />
+  <ExperienceSection locale={locale} items={experience} />
+  <CertificationsSection locale={locale} items={certifications} />
+  <SkillsSection locale={locale} groups={skills} />
+  <EducationSection locale={locale} items={education} />
+  <ContactSection locale={locale} email={profile.links.email} />
+</BaseLayout>

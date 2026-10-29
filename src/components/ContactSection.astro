@@ -1,0 +1,49 @@
+---
+import ContactLinks from './ContactLinks.astro';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  email: string;
+}
+
+const { locale, email } = Astro.props;
+const t = useTranslations(locale);
+// Break before the "@" (only if needed) instead of mid-domain on narrow screens.
+const [user, domain] = email.split('@');
+---
+
+<section id="contact" class="container" aria-labelledby="contact-title">
+  <div class="frame">
+    <h2 id="contact-title">
+      <span class="visually-hidden">{t.contact.title}: </span>
+      {t.contact.heading}
+    </h2>
+    <a class="email" href={`mailto:${email}`}>
+      {user}
+      <wbr />@{domain}
+    </a>
+    <ContactLinks locale={locale} />
+  </div>
+</section>
+
+<style>
+  .frame {
+    display: grid;
+    gap: var(--space-m);
+    padding-block: var(--space-2xl) 0;
+    border-block-start: var(--rule-width) solid var(--rule);
+  }
+
+  h2 {
+    font-size: var(--step-2);
+    font-weight: 600;
+  }
+
+  .email {
+    font-size: clamp(1.05rem, 0.1rem + 4.9vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+</style>
