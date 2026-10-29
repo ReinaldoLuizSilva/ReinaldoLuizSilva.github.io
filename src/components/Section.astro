@@ -1,0 +1,41 @@
+---
+// Home section frame: thin rule on top, title in a label column on wide
+// screens, stacked above the content on narrow ones.
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+const headingId = `${id}-title`;
+---
+
+<section id={id} class="container" aria-labelledby={headingId}>
+  <div class="frame">
+    <h2 id={headingId}>{title}</h2>
+    <div class="body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .frame {
+    display: grid;
+    gap: var(--space-m);
+    padding-block: var(--space-xl);
+    border-block-start: var(--rule-width) solid var(--rule);
+  }
+
+  h2 {
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  @media (min-width: 48rem) {
+    .frame {
+      grid-template-columns: 14rem 1fr;
+      gap: var(--space-l);
+    }
+  }
+</style>

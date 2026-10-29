@@ -1,0 +1,70 @@
+---
+import Section from './Section.astro';
+import type { Certification } from '../data/certifications';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  items: Certification[];
+}
+
+const { locale, items } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id="certifications" title={t.certifications.title}>
+  <ul>
+    {items.map((cert) => (
+      <li>
+        <span class="name">{cert.name}</span>
+        <span class="mono meta">
+          <span>{cert.issuer}</span>
+          {cert.status === 'in-progress' && <span>{t.certifications.inProgress}</span>}
+          {cert.verifyUrl && (
+            <a href={cert.verifyUrl} rel="noopener noreferrer">
+              {t.certifications.verify}
+              <span class="visually-hidden">: {cert.name}</span>
+            </a>
+          )}
+        </span>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    gap: var(--space-2xs) var(--space-m);
+    padding-block: var(--space-s);
+    border-block-end: var(--rule-width) solid var(--rule);
+  }
+
+  li:first-child {
+    border-block-start: var(--rule-width) solid var(--rule);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--fg-muted);
+  }
+
+  .meta > * + *::before {
+    content: '·';
+    display: inline-block;
+    margin-inline: var(--space-xs);
+  }
+
+  @media (min-width: 48rem) {
+    li {
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+    }
+  }
+</style>

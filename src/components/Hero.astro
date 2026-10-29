@@ -1,0 +1,50 @@
+---
+import ContactLinks from './ContactLinks.astro';
+import type { Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  headline: string;
+  title: string;
+  positioning: string;
+}
+
+const { locale, headline, title, positioning } = Astro.props;
+---
+
+<section class="container hero" aria-labelledby="hero-title">
+  <h1 id="hero-title">{headline}</h1>
+  <div class="intro">
+    <p class="title">{title}</p>
+    <p>{positioning}</p>
+  </div>
+  <ContactLinks locale={locale} />
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-l);
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+
+  h1 {
+    font-size: var(--step-hero);
+    font-weight: 800;
+    font-stretch: 125%;
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    max-inline-size: 16ch;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .title {
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+import Section from './Section.astro';
+import type { SkillGroup } from '../data/skills';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  groups: SkillGroup[];
+}
+
+const { locale, groups } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id="stack" title={t.skills.title}>
+  <div class="groups">
+    {groups.map((group) => (
+      <div class="group">
+        <h3>{group.area[locale]}</h3>
+        <ul class="mono">
+          {group.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-l) var(--space-xl);
+  }
+
+  .group {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+  }
+
+  h3 {
+    font-size: var(--step-0);
+    font-weight: 600;
+  }
+
+  ul {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: 0;
+    list-style: none;
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+import Section from './Section.astro';
+import type { Experience } from '../data/experience';
+import { formatYearMonth, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  items: Experience[];
+}
+
+const { locale, items } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id="experience" title={t.experience.title}>
+  {items.map((job) => (
+    <article>
+      <h3>
+        {job.company} <span class="mono location">{job.location}</span>
+      </h3>
+      <ol class="roles">
+        {job.roles.map((role) => (
+          <li>
+            <span class="mono period">
+              <time datetime={role.start}>{formatYearMonth(locale, role.start)}</time>
+              {' – '}
+              {role.end ? (
+                <time datetime={role.end}>{formatYearMonth(locale, role.end)}</time>
+              ) : (
+                t.experience.present
+              )}
+            </span>
+            <span>{role.title[locale]}</span>
+          </li>
+        ))}
+      </ol>
+      <h4 class="visually-hidden">{t.experience.activities}</h4>
+      <ul class="activities">
+        {job.activities[locale].map((activity) => (
+          <li>{activity}</li>
+        ))}
+      </ul>
+      {job.highlights[locale].length > 0 && (
+        <>
+          <h4>{t.experience.highlights}</h4>
+          <ul>
+            {job.highlights[locale].map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        </>
+      )}
+    </article>
+  ))}
+</Section>
+
+<style>
+  article {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  article + article {
+    margin-block-start: var(--space-l);
+  }
+
+  h3 {
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .location,
+  .period {
+    color: var(--fg-muted);
+  }
+
+  .location {
+    display: inline-block;
+    font-weight: 400;
+  }
+
+  .roles {
+    padding: 0;
+    list-style: none;
+  }
+
+  .roles li {
+    display: grid;
+    gap: 0 var(--space-m);
+    padding-block: var(--space-xs);
+    border-block-end: var(--rule-width) solid var(--rule);
+  }
+
+  .roles li:first-child {
+    border-block-start: var(--rule-width) solid var(--rule);
+  }
+
+  .period {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .activities {
+    max-inline-size: var(--measure);
+    padding-inline-start: 1.1em;
+  }
+
+  @media (min-width: 36rem) {
+    .roles li {
+      grid-template-columns: 13rem 1fr;
+      align-items: baseline;
+    }
+  }
+</style>
