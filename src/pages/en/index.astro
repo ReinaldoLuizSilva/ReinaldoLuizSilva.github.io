@@ -1,5 +1,17 @@
 ---
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import Placeholder from '../../components/Placeholder.astro';
+import { profile } from '../../data/profile';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations('en');
 ---
 
-<Placeholder locale="en" />
+<BaseLayout
+  locale="en"
+  route={{ page: 'home' }}
+  title={`${profile.name} · ${profile.title.en}`}
+  description={t.meta.description}
+>
+  <Placeholder locale="en" />
+</BaseLayout>

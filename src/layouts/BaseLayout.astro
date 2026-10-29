@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import {
+  defaultLocale,
+  htmlLang,
+  locales,
+  pathFor,
+  useTranslations,
+  type Locale,
+  type Route,
+} from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  route: Route;
+  title: string;
+  description: string;
+}
+
+const { locale, route, title, description } = Astro.props;
+const t = useTranslations(locale);
+const absolute = (path: string) => new URL(path, Astro.site).href;
+---
+
+<!doctype html>
+<html lang={htmlLang[locale]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={absolute(pathFor(locale, route))} />
+    {locales.map((code) => (
+      <link rel="alternate" hreflang={htmlLang[code]} href={absolute(pathFor(code, route))} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={absolute(pathFor(defaultLocale, route))} />
+    <link
+      rel="preload"
+      href="/fonts/mona-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">
+      {t.layout.skipToContent}
+    </a>
+    <Header locale={locale} route={route} />
+    <main id="content" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

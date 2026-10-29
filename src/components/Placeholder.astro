@@ -1,7 +1,7 @@
 ---
-// Temporary page used until the real home is built (M3/M4).
+// Temporary home content until the real sections are built (M4).
 import { profile } from '../data/profile';
-import { htmlLang, useTranslations, type Locale } from '../i18n/utils';
+import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -9,33 +9,27 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-const otherHref = locale === 'pt' ? '/en/' : '/';
-const otherLocale: Locale = locale === 'pt' ? 'en' : 'pt';
 ---
 
-<html lang={htmlLang[locale]}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={t.meta.description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{profile.name} · {profile.title[locale]}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{profile.name}</h1>
-      <p>{profile.title[locale]}</p>
-      <p>{t.placeholder.status}</p>
-      <p>
-        <a href={profile.links.github} rel="noopener noreferrer">
-          {t.placeholder.github}
-        </a>
-      </p>
-      <p>
-        <a href={otherHref} lang={htmlLang[otherLocale]} hreflang={htmlLang[otherLocale]}>
-          {t.placeholder.otherLanguage}
-        </a>
-      </p>
-    </main>
-  </body>
-</html>
+<section class="container">
+  <h1>{profile.title[locale]}</h1>
+  <p>{t.placeholder.status}</p>
+  <p>
+    <a href={profile.links.github} rel="noopener noreferrer">
+      {t.placeholder.github}
+    </a>
+  </p>
+</section>
+
+<style>
+  section {
+    display: grid;
+    gap: var(--space-m);
+    padding-block: var(--space-2xl);
+  }
+
+  h1 {
+    font-size: var(--step-3);
+    font-stretch: 125%;
+  }
+</style>
